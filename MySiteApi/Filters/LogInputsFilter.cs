@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MySiteApi.Filters
 {
-    public class LogInputsFilter : IActionFilter
+    public class LogInputsFilter : IActionFilter, IMyActionFilter
     {
         private readonly IMyLogger logger;
 

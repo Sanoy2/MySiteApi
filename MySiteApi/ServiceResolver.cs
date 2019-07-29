@@ -2,10 +2,13 @@
 using Castle.Windsor;
 using Castle.Windsor.MsDependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
+using MySiteApi.Filters;
 using MySiteApi.Others.Logger;
+using MySiteApi.Repositories.IpLock;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace MySiteApi
@@ -17,8 +20,14 @@ namespace MySiteApi
 
         public ServiceResolver(IServiceCollection services)
         {
+            var assembly = Assembly.GetEntryAssembly();
+
             container = new WindsorContainer();
             container.Register(Component.For<IMyLogger>().ImplementedBy<ConsoleLogger>().LifestyleSingleton());
+            container.Register(Component.For<IIpLockRepository>().ImplementedBy<InMemoryIpLock>().LifestyleTransient());
+
+            container.Register(Classes.FromAssembly(assembly).BasedOn(typeof(IMyActionFilter)).LifestyleTransient());
+
             serviceProvider = WindsorRegistrationHelper.CreateServiceProvider(container, services);
         }
 

@@ -9,8 +9,8 @@ using MySiteApi.Others.Logger;
 namespace MySiteApi.Controllers
 {
     [Route("api/[controller]")]
-    //[LogInputsFilter]
     [ServiceFilter(typeof(LogInputsFilter))]
+    [ServiceFilter(typeof(IpLockFilter))]
     [ApiController]
     public class ValuesController : ControllerBase
     {
