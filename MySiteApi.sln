@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29123.88
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MySiteApi", "MySiteApi\MySiteApi.csproj", "{3A6A5322-90D3-43C8-96A8-DEBC0E8E81A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MySiteApi", "MySiteApi\MySiteApi.csproj", "{3A6A5322-90D3-43C8-96A8-DEBC0E8E81A5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MySiteApi.ApiTests", "MySiteApi.ApiTests\MySiteApi.ApiTests.csproj", "{A1F8A9C4-D867-4BEC-B80F-767565642D58}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{3A6A5322-90D3-43C8-96A8-DEBC0E8E81A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A6A5322-90D3-43C8-96A8-DEBC0E8E81A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A6A5322-90D3-43C8-96A8-DEBC0E8E81A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1F8A9C4-D867-4BEC-B80F-767565642D58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1F8A9C4-D867-4BEC-B80F-767565642D58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1F8A9C4-D867-4BEC-B80F-767565642D58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1F8A9C4-D867-4BEC-B80F-767565642D58}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
