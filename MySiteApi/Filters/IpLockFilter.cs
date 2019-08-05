@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
+using MySiteApi.Exceptions;
 using MySiteApi.Others.Logger;
 using MySiteApi.Repositories.IpLock;
 using System;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MySiteApi.Filters
 {
-    public class IpLockFilter : IActionFilter, IMyActionFilter
+    public class IpLockFilter : IMyActionFilter
     {
         private readonly IIpLockRepository ipLockRepository;
         private readonly IMyLogger logger;
@@ -30,7 +31,7 @@ namespace MySiteApi.Filters
             if (ipLockRepository.IsLocked(ip))
             {
                 logger.Log($"Illegal ip: {ip.ToString()}");
-                throw new Exception();
+                throw new IpLockedException();
             }
         }
     }
