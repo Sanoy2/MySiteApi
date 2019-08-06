@@ -19,12 +19,10 @@
     using System.Collections.Generic;
     using System.Net;
 
-    /// <summary>
-    /// Defines the <see cref="IpLockTests" />
-    /// </summary>
     [TestFixture]
     public class IpLockTests
     {
+        private IMyActionFilter filter;
         private IMyLogger logger;
         private IIpLockRepository repository;
         private WindsorContainer container;
@@ -54,6 +52,8 @@
             container.Register(Component.For<IIpLockRepository>().Instance(repository));
             container.Register(Component.For<IMyActionFilter>().ImplementedBy<IpLockFilter>().LifestyleTransient());
 
+            filter = container.Resolve<IMyActionFilter>();
+
             var actionContext = new ActionContext(
                 Substitute.For<HttpContext>(),
                 Substitute.For<RouteData>(),
@@ -69,30 +69,18 @@
                 );
         }
 
-        /// <summary>
-        /// The ShouldNotThrowExceptionIfAddressNotLocked
-        /// </summary>
-        /// <param name="ipAddressString">The ipAddressString<see cref="string"/></param>
         [TestCaseSource(nameof(unlockedIps))]
         public void ShouldNotThrowExceptionIfAddressNotLocked(string ipAddressString)
         {
-            var filter = container.Resolve<IMyActionFilter>();
-
             var ipAddress = ipAddressString.MakeIpAddress();
             context.HttpContext.Connection.RemoteIpAddress.Returns(ipAddress);
 
             filter.OnActionExecuting(context);
         }
 
-        /// <summary>
-        /// The ShouldThrowSpecificExceptionIfAddressIsLocked
-        /// </summary>
-        /// <param name="ipAddressString">The ipAddressString<see cref="string"/></param>
         [TestCaseSource(nameof(lockedIps))]
         public void ShouldThrowSpecificExceptionIfAddressIsLocked(string ipAddressString)
         {
-            var filter = container.Resolve<IMyActionFilter>();
-
             var ipAddress = ipAddressString.MakeIpAddress();
             context.HttpContext.Connection.RemoteIpAddress.Returns(ipAddress);
 
@@ -101,16 +89,10 @@
             act.Should().Throw<IpLockedException>();
         }
 
-        /// <summary>
-        /// The ShouldNotThrowOtherExceptions
-        /// </summary>
-        /// <param name="ipAddressString">The ipAddressString<see cref="string"/></param>
         [TestCaseSource(nameof(lockedIps))]
         [TestCaseSource(nameof(unlockedIps))]
         public void ShouldNotThrowOtherExceptions(string ipAddressString)
         {
-            var filter = container.Resolve<IMyActionFilter>();
-
             var ipAddress = ipAddressString.MakeIpAddress();
             context.HttpContext.Connection.RemoteIpAddress.Returns(ipAddress);
 
@@ -129,8 +111,6 @@
         [TestCaseSource(nameof(unlockedIps))]
         public void ShouldNotCallLogger(string ipAddressString)
         {
-            var filter = container.Resolve<IMyActionFilter>();
-
             var ipAddress = ipAddressString.MakeIpAddress();
             context.HttpContext.Connection.RemoteIpAddress.Returns(ipAddress);
 
@@ -142,8 +122,6 @@
         [TestCaseSource(nameof(lockedIps))]
         public void ShouldCallLoggerOnce(string ipAddressString)
         {
-            var filter = container.Resolve<IMyActionFilter>();
-
             var ipAddress = ipAddressString.MakeIpAddress();
             context.HttpContext.Connection.RemoteIpAddress.Returns(ipAddress);
             
@@ -160,8 +138,6 @@
         [TestCaseSource(nameof(lockedIps))]
         public void ShouldCallRepositoryOnce(string ipAddressString)
         {
-            var filter = container.Resolve<IMyActionFilter>();
-
             var ipAddress = ipAddressString.MakeIpAddress();
             context.HttpContext.Connection.RemoteIpAddress.Returns(ipAddress);
 
@@ -174,9 +150,6 @@
             {   }
         }
 
-        /// <summary>
-        /// Defines the lockedIps
-        /// </summary>
         internal static string[] lockedIps =
         {
              "127.0.1.1" ,
@@ -184,9 +157,6 @@
              "156.255.4.129"
         };
 
-        /// <summary>
-        /// Defines the unlockedIps
-        /// </summary>
         internal static string[] unlockedIps =
         {
             "127.0.0.1",
@@ -194,5 +164,6 @@
             "192.168.0.1",
             "253.213.232.118"
         };
+        
     }
 }
