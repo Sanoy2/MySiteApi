@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using MySiteApi.Filters;
+using MySiteApi.Others;
 using MySiteApi.Others.Logger;
 
 namespace MySiteApi.Controllers
@@ -15,10 +17,12 @@ namespace MySiteApi.Controllers
     public class ValuesController : ControllerBase
     {
         private readonly IMyLogger logger;
+        private readonly IMapper mapper;
 
-        public ValuesController(IMyLogger logger)
+        public ValuesController(IMyLogger logger, IMapper mapper)
         {
             this.logger = logger;
+            this.mapper = mapper;
         }
 
         // GET api/values

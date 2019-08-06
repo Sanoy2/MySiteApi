@@ -18,9 +18,12 @@ namespace MySiteApi.Others.Logger
         {
             Console.WriteLine("********************");
             Console.WriteLine($"   **{label}**");
-            Console.WriteLine("********************");
-            Console.WriteLine(text);
-            Console.WriteLine();
+            Log(text);
+        }
+
+        public void Log(object someObject)
+        {
+            Log(someObject.ToString());
         }
 
         public async Task LogAsync(string text)
@@ -28,9 +31,14 @@ namespace MySiteApi.Others.Logger
             await Task.Run(() => Log(text));
         }
 
-        public Task LogAsync(string label, string text)
+        public async Task LogAsync(string label, string text)
         {
-            throw new NotImplementedException();
+            await Task.Run(() => Log(label, text));
+        }
+
+        public async Task LogAsync(object someObject)
+        {
+            await LogAsync(someObject.ToString());
         }
     }
 }

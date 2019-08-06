@@ -1,4 +1,5 @@
-﻿using Castle.MicroKernel.Registration;
+﻿using AutoMapper;
+using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using Castle.Windsor.MsDependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,7 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-
+using MySiteApi.Others.AutoMapper;
 namespace MySiteApi
 {
     public class ServiceResolver : IServiceProvider
@@ -23,6 +24,7 @@ namespace MySiteApi
             var assembly = Assembly.GetEntryAssembly();
 
             container = new WindsorContainer();
+            container.Register(Component.For<IMapper>().Instance(AutoMapperConfig.Configure()).LifestyleSingleton());
             container.Register(Component.For<IMyLogger>().ImplementedBy<ConsoleLogger>().LifestyleSingleton());
             container.Register(Component.For<IIpLockRepository>().ImplementedBy<InMemoryIpLock>().LifestyleTransient());
 
