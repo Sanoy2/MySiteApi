@@ -58,7 +58,7 @@ namespace MySiteApi
                 c.RoutePrefix = String.Empty;
             });
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseMvc();
         }
     }
